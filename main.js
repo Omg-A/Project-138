@@ -22,13 +22,23 @@ var ball = {
 }
 
 function setup(){
-  var canvas =  createCanvas(700,600);
+  var canvas =  createCanvas(700, 600);
   canvas.parent('canvas');
+
+  video = createCapture(VIDEO);
+  video.hide();
+  video.size(700, 600);
+
+  poseNet = ml5.poseNet(video, modelLoaded);
+    poseNet.on('pose', gotPoses);
 }
 
+function gotPoses(){
+  
+}
 
 function draw(){
-
+ image(video, 0, 0, 700, 600);
  background(0); 
 
  fill("black");
@@ -39,36 +49,39 @@ function draw(){
  stroke("black");
  rect(0,0,20,700);
  
-   //funtion paddleInCanvas call 
-   paddleInCanvas();
+  //funtion paddleInCanvas call 
+  paddleInCanvas();
  
-   //left paddle
-   fill(250,0,0);
-    stroke(0,0,250);
-    strokeWeight(0.5);
-   paddle1Y = mouseY; 
-   rect(paddle1X,paddle1Y,paddle1,paddle1Height,100);
+  //left paddle
+  fill(250,0,0);
+  stroke(0,0,250);
+  strokeWeight(0.5);
+  paddle1Y = mouseY; 
+  rect(paddle1X,paddle1Y,paddle1,paddle1Height,100);
    
    
-    //pc computer paddle
-    fill("#FFA500");
-    stroke("#FFA500");
-   var paddle2y =ball.y-paddle2Height/2;  rect(paddle2Y,paddle2y,paddle2,paddle2Height,100);
+  //pc computer paddle
+  fill("#FFA500");
+  stroke("#FFA500");
+  var paddle2y =ball.y-paddle2Height/2;  rect(paddle2Y,paddle2y,paddle2,paddle2Height,100);
     
-    //function midline call
-    midline();
+  //function midline call
+  midline();
     
-    //funtion drawScore call 
-   drawScore();
+  //funtion drawScore call 
+  drawScore();
    
-   //function models call  
-   models();
+  //function models call  
+  models();
    
-   //function move call which in very important
-    move();
+  //function move call which in very important
+  move();
 }
 
 
+function  modelLoaded(){
+  console.log("Model Has Been Loaded!!!");
+}
 
 //function reset when ball does notcame in the contact of padde
 function reset(){
